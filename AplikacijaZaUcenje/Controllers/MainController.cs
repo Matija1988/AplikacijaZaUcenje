@@ -42,6 +42,59 @@ namespace AplikacijaZaUcenje.Controllers
 
         }
 
+        [HttpGet]
+        [Route("{id:int}")]
+
+        public IActionResult GetById(int id)
+        {
+            if (!ModelState.IsValid || id <= 0) { return BadRequest(ModelState); }
+
+            try
+            {
+                var entity = FindEntity(id);
+                return new JsonResult(_mapper.MapInsertUpdateToDTO(entity));
+            } catch (Exception ex)
+            {
+                return BadRequest(ex.Message);
+            }
+
+        }
+
+        [HttpPost]
+
+        public IActionResult Post(TDI entityDTO)
+        {
+            if(!ModelState.IsValid || entityDTO == null) { return BadRequest(ModelState); }
+
+            try
+            {
+                var entity = CreateEntity(entityDTO);
+                _context.Add(entityDTO);
+                _context.SaveChanges();
+
+                return StatusCode(StatusCodes.Status201Created, _mapper.MapReadToDTO(entity));
+
+            } catch(Exception ex) 
+            {
+                return BadRequest(ex.Message);
+            }
+        }
+
+        protected virtual T CreateEntity(TDI entityDTO)
+        {
+            return _mapper.MapInsertUpdatedFromDTO(entityDTO);
+        }
+
+        protected virtual T FindEntity(int id)
+        {
+            var entityFromDB = DbSet.Find(id);
+            if(entityFromDB == null)
+            {
+                throw new Exception("No entity with id " + id + " found in database!!!"); 
+            }
+            return entityFromDB;
+        }
+
         protected virtual List<TDR> ReadAll()
         {
             var list = DbSet.ToList();

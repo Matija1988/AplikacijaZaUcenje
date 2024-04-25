@@ -53,5 +53,10 @@ namespace AplikacijaZaUcenje.Mappers
         {
             return MapperMapInsertUpdateToDTO.Map<DTI>(entity);
         }
+
+        public T MapInsertUpdatedFromDTO(DTI entity)
+        {
+            return MapperMapInsertUpdatedFromDTO.Map<T>(entity);    
+        }
     }
 }
