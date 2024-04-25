@@ -22,6 +22,7 @@ zaporka varchar(255) not null
 create table Razredi(
 id int primary key not null identity (1,1),
 naziv varchar(50) not null,
+maksimalnoUcenika int,
 uciteljRazrednikID int
 );
 
@@ -81,11 +82,11 @@ Alter table rezultati add foreign key (odgovorID) references odgovori(id);
 insert into Ucitelji (ime, prezime, email, korisnickoIme, zaporka) values
 ('Dražen', 'Mesarić', 'neki@gmail.com', 'LeProf', 'test');
 
-insert into razredi(naziv, uciteljRazrednikID) values
-('1.a', 1),
-('1.b', 1),
-('2.a', 1),
-('2.b', 1);
+insert into razredi(naziv, maksimalnoUcenika, uciteljRazrednikID) values
+('1.a',20, 1),
+('1.b', 22, 1),
+('2.a', 22, 1),
+('2.b', 20, 1);
 
 insert into ucenici (ime, prezime, korisnickoIme, zaporka, razredID) values 
 ('Marko', 'Malenica', 'MM01-1a', 'markec', 1),

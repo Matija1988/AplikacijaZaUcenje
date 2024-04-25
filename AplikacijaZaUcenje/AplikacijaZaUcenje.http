@@ -1,0 +1,6 @@
+@AplikacijaZaUcenje_HostAddress = http://localhost:5269
+
+GET {{AplikacijaZaUcenje_HostAddress}}/weatherforecast/
+Accept: application/json
+
+###
