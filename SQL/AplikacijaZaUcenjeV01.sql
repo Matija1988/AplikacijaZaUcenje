@@ -14,7 +14,7 @@ id int primary key not null identity(1,1),
 ime varchar(30) not null,
 prezime varchar(30) not null,
 email varchar(255) not null,
-brojMobitelja varchar(50),
+brojMobitela varchar(50),
 korisnickoIme varchar(50) not null,
 zaporka varchar(255) not null
 );
@@ -80,7 +80,9 @@ Alter table rezultati add foreign key (odgovorID) references odgovori(id);
 ------------------ INSERT INFORMACIJA -------------------------
 
 insert into Ucitelji (ime, prezime, email, korisnickoIme, zaporka) values
-('Dražen', 'Mesarić', 'neki@gmail.com', 'LeProf', 'test');
+('Dražen', 'Mesarić', 'neki@gmail.com', 'LeProf', 'test'),
+('Test', 'Test', 'test@gmail.com', 'test', 'test'),
+('Tester', 'Tester', 'tester@gmail.com', 'tester', 'tester');
 
 insert into razredi(naziv, maksimalnoUcenika, uciteljRazrednikID) values
 ('1.a',20, 1),
@@ -156,4 +158,4 @@ insert into rezultati (ucenikID, odgovorID) values
 (2,9),
 (2,11);
 
-
+select * from Ucitelji;

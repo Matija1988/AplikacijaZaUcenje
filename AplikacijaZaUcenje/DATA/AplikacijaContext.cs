@@ -10,12 +10,12 @@ namespace AplikacijaZaUcenje.DATA
         
         }
 
-        public DbSet<Gradivo> Gradiva;
-        public DbSet<Odgovor> Odgovori;
-        public DbSet<Pitanje> Pitanja;
-        public DbSet<Predmet> Predmeti;
-        public DbSet<Razred> Razredi;
-        public DbSet<Ucenik> Ucenici;
-        public DbSet<Ucitelj> Ucitelji;
+        public DbSet<Gradivo> Gradiva { get; set; }
+        public DbSet<Odgovor> Odgovori { get; set; }
+        public DbSet<Pitanje> Pitanja { get; set; }
+        public DbSet<Predmet> Predmeti { get; set; }
+        public DbSet<Razred> Razredi { get; set; }
+        public DbSet<Ucenik> Ucenici { get; set; }
+        public DbSet<Ucitelj> Ucitelji { get; set; }
     }
 }
