@@ -64,21 +64,52 @@ namespace AplikacijaZaUcenje.Controllers
 
         public IActionResult Post(TDI entityDTO)
         {
-            if(!ModelState.IsValid || entityDTO == null) { return BadRequest(ModelState); }
+            if (!ModelState.IsValid || entityDTO == null) { return BadRequest(ModelState); }
 
             try
             {
                 var entity = CreateEntity(entityDTO);
-                _context.Add(entityDTO);
+                _context.Add(entity);
                 _context.SaveChanges();
 
                 return StatusCode(StatusCodes.Status201Created, _mapper.MapReadToDTO(entity));
 
-            } catch(Exception ex) 
+            } catch (Exception ex)
             {
                 return BadRequest(ex.Message);
             }
         }
+
+        [HttpPut]
+        [Route("{id:int}")]
+
+        public IActionResult Put(int id, TDI entityTDI)
+        {
+            if (id <= 0 || !ModelState.IsValid || entityTDI == null) { return BadRequest(ModelState); }
+
+            try
+            {
+                var entityFromDB = FindEntity(id);
+                _context.Entry(entityFromDB).State = EntityState.Detached;
+                var entity = UpdateEntity(entityTDI, entityFromDB);
+                entity.ID = id;
+                _context.Update(entity);
+                _context.SaveChanges();
+
+                return StatusCode(StatusCodes.Status200OK, _mapper.MapReadToDTO(entity));
+            }
+            catch(Exception ex)
+            {
+                return BadRequest(ex.Message);  
+            }
+
+        }
+
+        protected virtual T UpdateEntity(TDI entityTDI, T entityFromDB)
+        {
+            return _mapper.MapInsertUpdatedFromDTO(entityTDI);
+        } 
+
 
         protected virtual T CreateEntity(TDI entityDTO)
         {
