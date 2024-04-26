@@ -12,7 +12,7 @@ namespace AplikacijaZaUcenje.Model
 
         public string Zaporka { get; set; }
 
-        [ForeignKey("RazredID")]
+        [ForeignKey("razredID")]
         public Razred Razred { get; set; }
     }
 }
