@@ -15,6 +15,10 @@ namespace AplikacijaZaUcenje.Model
 
     public record UcenikDTOInsertUpdate(string Ime, string Prezime, string KorisnickoIme, string Zaporka, int RazredID);
 
+    public record PredmetDTORead(int Id, string Naziv, string Ucitelj);
+
+    public record PredmetDTOInsertUpdate(string Naziv, int UciteljID);
+
 
 
 }

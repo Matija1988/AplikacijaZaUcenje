@@ -16,6 +16,12 @@ namespace AplikacijaZaUcenje.Controllers
             _mapper = new UcenikMapper();
         }
 
+        protected override void ControlDelete(Ucenik entity)
+        {
+            var entityFromDB = _context.Ucenici.Find(entity.ID) 
+                ?? throw new Exception("Entitet sa " + entity.ID + " nije pronaden u bazi podataka!");
+        }
+
         protected override Ucenik CreateEntity(UcenikDTOInsertUpdate entityDTO)
         {
             var razred = _context.Razredi.Find(entityDTO.RazredID) 

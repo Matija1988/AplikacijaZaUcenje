@@ -12,6 +12,8 @@ namespace AplikacijaZaUcenje.Controllers
 
         protected Mapping<T, TDR, TDI> _mapper;
 
+        protected abstract void ControlDelete(T entity);
+
         protected readonly AplikacijaContext _context;
 
         public MainController(AplikacijaContext context) {
@@ -100,10 +102,35 @@ namespace AplikacijaZaUcenje.Controllers
             }
             catch(Exception ex)
             {
+                return BadRequest(ex.Message);
+            }
+
+        }
+
+        [HttpDelete]
+        [Route("{id:int}")]
+
+        public IActionResult Delete(int id)
+        {
+            if (!ModelState.IsValid || id<=0) { return BadRequest(); }
+
+            try
+            {
+                var entityFromDB = FindEntity(id);
+
+                ControlDelete(entityFromDB);
+                _context.Remove(entityFromDB);
+                _context.SaveChanges();
+                return Ok("Entity deleted!");
+
+            } catch(Exception ex)
+            {
                 return BadRequest(ex.Message);  
             }
 
         }
+
+        
 
         protected virtual T UpdateEntity(TDI entityTDI, T entityFromDB)
         {

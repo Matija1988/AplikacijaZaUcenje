@@ -35,7 +35,7 @@ zaporka varchar(255) not null,
 razredID int not null
 );
 
-create table predmet(
+create table Predmeti(
 id int primary key not null identity(1,1),
 naziv varchar(100),
 uciteljID int
@@ -70,7 +70,7 @@ odgovorID int
 
 Alter table Razredi add foreign key (UciteljRazrednikID) references ucitelji(id);
 Alter table ucenici add foreign key (razredID) references razredi(id);
-Alter table gradiva add foreign key (predmetID) references predmet(id);
+Alter table gradiva add foreign key (predmetID) references predmeti(id);
 Alter table pitanja add foreign key (gradivoID) references gradiva(id);
 Alter table odgovori add foreign key (pitanjeID) references pitanja(id);
 Alter table rezultati add foreign key (ucenikID) references ucenici(id);
@@ -108,7 +108,7 @@ insert into ucenici (ime, prezime, korisnickoIme, zaporka, razredID) values
 ('Luka', 'Lukic', 'TT03-02b', 'luka', 4),
 ('Andrej', 'Andric', 'TT04-02b', 'andre', 4);
 
-insert into predmet(naziv, uciteljID) values 
+insert into predmeti(naziv, uciteljID) values 
 ('Povijest umjetnosti', 1);
 
 insert gradiva (naziv, predmetID) values 
