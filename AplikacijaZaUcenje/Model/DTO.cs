@@ -7,7 +7,7 @@ namespace AplikacijaZaUcenje.Model
     public record UciteljDTOInsertUpdate(string Ime, string Prezime, string Email, string? BrojMobitela,
         string KorisnickoIme, string Zaporka);
 
-    public record RazredDTORead(int ID, string Naziv, int MaksimalnoUcenika, string Razrednik);
+    public record RazredDTORead(int ID, string Naziv, int MaksimalnoUcenika, string Ucitelj);
 
     public record RazredDTOInsertUpdate(string Naziv, int MaksimalnoPolaznika, int UciteljRazrednikID);
 
