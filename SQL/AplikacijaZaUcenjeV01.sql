@@ -23,7 +23,7 @@ create table Razredi(
 id int primary key not null identity (1,1),
 naziv varchar(50) not null,
 maksimalnoUcenika int,
-uciteljRazrednikID int
+uciteljID int
 );
 
 create table ucenici(
@@ -68,13 +68,14 @@ odgovorID int
 
 -------- DODAVANJE VANJSKIH KLJUCEVA U TABLICE ------------
 
-Alter table Razredi add foreign key (UciteljRazrednikID) references ucitelji(id);
-Alter table ucenici add foreign key (razredID) references razredi(id);
-Alter table gradiva add foreign key (predmetID) references predmeti(id);
-Alter table pitanja add foreign key (gradivoID) references gradiva(id);
-Alter table odgovori add foreign key (pitanjeID) references pitanja(id);
-Alter table rezultati add foreign key (ucenikID) references ucenici(id);
-Alter table rezultati add foreign key (odgovorID) references odgovori(id);
+Alter table Razredi add foreign key (UciteljID) references ucitelji(id);
+Alter table Ucenici add foreign key (razredID) references razredi(id);
+Alter table Predmeti add foreign key (UciteljID) references Ucitelji(id);
+Alter table Gradiva add foreign key (predmetID) references predmeti(id);
+Alter table Pitanja add foreign key (gradivoID) references gradiva(id);
+Alter table Odgovori add foreign key (pitanjeID) references pitanja(id);
+Alter table Rezultati add foreign key (ucenikID) references ucenici(id);
+Alter table Rezultati add foreign key (odgovorID) references odgovori(id);
 
 
 ------------------ INSERT INFORMACIJA -------------------------
@@ -84,7 +85,7 @@ insert into Ucitelji (ime, prezime, email, korisnickoIme, zaporka) values
 ('Test', 'Test', 'test@gmail.com', 'test', 'test'),
 ('Tester', 'Tester', 'tester@gmail.com', 'tester', 'tester');
 
-insert into razredi(naziv, maksimalnoUcenika, uciteljRazrednikID) values
+insert into razredi(naziv, maksimalnoUcenika, uciteljID) values
 ('1.a',20, 1),
 ('1.b', 22, 1),
 ('2.a', 22, 1),

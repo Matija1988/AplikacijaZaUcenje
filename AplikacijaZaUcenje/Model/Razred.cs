@@ -6,7 +6,7 @@ namespace AplikacijaZaUcenje.Model
     {
         public string Naziv { get; set; }
         public int MaksimalnoUcenika { get; set; }
-        [ForeignKey("UciteljRazrednikID")]
+        [ForeignKey("UciteljID")]
         public Ucitelj Ucitelj { get; set; }
 
     }

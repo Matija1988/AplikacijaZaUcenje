@@ -17,6 +17,23 @@ namespace AplikacijaZaUcenje.Controllers
             _mapper = new PredmetMapper();
         }
 
+        protected override Predmet UpdateEntity(PredmetDTOInsertUpdate entityTDI, Predmet entityFromDB)
+        {
+            var ucitelj = _context.Ucitelji.Find(entityTDI.UciteljID)
+                ?? throw new Exception("Ne postoji unos sa ključem " + entityFromDB.Ucitelj.ID + " u bazi podataka!");
+
+            entityFromDB.Naziv = entityTDI.Naziv;
+            entityFromDB.Ucitelj = ucitelj; 
+
+            return entityFromDB;
+        }
+
+        protected override Predmet FindEntity(int id)
+        {
+            return _context.Predmeti.Include(u => u.Ucitelj).FirstOrDefault(x => x.ID == id)
+                ?? throw new Exception("Ne postoji unos sa ključem " + id + " u bazi podataka!");
+        }
+
         protected override Predmet CreateEntity(PredmetDTOInsertUpdate entityDTO)
         {
             var ucitelj = _context.Ucitelji.Find(entityDTO.UciteljID)

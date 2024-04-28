@@ -8,7 +8,8 @@ namespace AplikacijaZaUcenje.Mappers
         public RazredMapper() {
 
             MapperReadToDTO = new Mapper(
-                new MapperConfiguration(c => {
+                new MapperConfiguration(c =>
+                {
 
                     c.CreateMap<Razred, RazredDTORead>()
                     .ConvertUsing(entity =>
@@ -16,9 +17,20 @@ namespace AplikacijaZaUcenje.Mappers
                         entity.ID,
                         entity.Naziv,
                         entity.MaksimalnoUcenika,
-                        entity.Ucitelj == null ? null : entity.Ucitelj.Ime + " " + entity.Ucitelj.Prezime
-                        )) ;
+                        entity.Ucitelj.Ime + " " + entity.Ucitelj.Prezime
+                        ));
 
+                }));
+
+            MapperMapInsertUpdateToDTO = new Mapper(
+                new MapperConfiguration(c =>
+                {
+                    c.CreateMap<Razred, RazredDTOInsertUpdate>().ConvertUsing(entity =>
+                    new RazredDTOInsertUpdate(
+                        entity.Naziv,
+                        entity.MaksimalnoUcenika,
+                        entity.Ucitelj.ID
+                        ));
                 }));
 
 

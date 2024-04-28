@@ -19,7 +19,7 @@ namespace AplikacijaZaUcenje.Controllers
         {
             var entityList = _context.Razredi.Include(r => r.Ucitelj).ToList();
 
-            if(entityList == null || entityList.Count() < 0) 
+            if(entityList == null || entityList.Count == 0) 
             { 
                 throw new Exception("No data in database!"); 
             }
