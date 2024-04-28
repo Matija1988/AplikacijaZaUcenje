@@ -11,7 +11,7 @@ namespace AplikacijaZaUcenje.Mappers
                 new MapperConfiguration(c =>
                 {
                     c.CreateMap<Gradivo, GradivoDTORead>()
-                    .ConstructUsing(entity =>
+                    .ConvertUsing(entity =>
                     new GradivoDTORead(
                         entity.ID,
                         entity.Naziv,

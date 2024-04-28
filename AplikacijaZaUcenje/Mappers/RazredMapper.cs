@@ -11,7 +11,7 @@ namespace AplikacijaZaUcenje.Mappers
                 new MapperConfiguration(c =>
                 {
                     c.CreateMap<Razred, RazredDTORead>()
-                    .ConstructUsing(entity =>
+                    .ConvertUsing(entity =>
                     new RazredDTORead(
                         entity.ID,
                         entity.Naziv,

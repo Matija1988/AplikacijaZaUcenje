@@ -13,7 +13,7 @@ namespace AplikacijaZaUcenje.Model
     
     public record RazredDTORead(int ID, string Naziv, int? MaksimalnoUcenika, string? Ucitelj);
 
-    public record RazredDTOInsertUpdate(string Naziv, int? MaksimalnoPolaznika, int? UciteljID);
+    public record RazredDTOInsertUpdate(string Naziv, int? MaksimalnoUcenika, int? UciteljID);
 
 
 

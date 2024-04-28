@@ -22,6 +22,7 @@ namespace AplikacijaZaUcenje.DATA
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
             modelBuilder.Entity<Razred>().HasOne(razred => razred.Ucitelj);
+
         }
 
     }

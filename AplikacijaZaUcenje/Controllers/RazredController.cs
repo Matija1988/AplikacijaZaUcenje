@@ -3,6 +3,8 @@ using AplikacijaZaUcenje.Mappers;
 using AplikacijaZaUcenje.Model;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.EntityFrameworkCore.Storage.Json;
+using System.Text;
 
 namespace AplikacijaZaUcenje.Controllers
 {
@@ -17,6 +19,25 @@ namespace AplikacijaZaUcenje.Controllers
             _mapper = new RazredMapper();
         }
 
+        protected override Razred UpdateEntity(RazredDTOInsertUpdate entityTDI, Razred entityFromDB)
+        {
+            var ucitelj = _context.Ucitelji.Find(entityTDI.UciteljID)
+                ?? throw new Exception("Entitet sa ključem: " + entityTDI.UciteljID + "-> nije pronaden u bazi podataka!");
+
+            entityFromDB.Naziv = entityTDI.Naziv;
+            entityFromDB.MaksimalnoUcenika = entityTDI.MaksimalnoUcenika;
+            entityFromDB.Ucitelj = ucitelj;
+
+            return entityFromDB;
+
+        }
+
+        protected override Razred FindEntity(int id)
+        {
+            return _context.Razredi.Include(r => r.Ucitelj).FirstOrDefault(x => x.ID == id)
+                ?? throw new Exception("Entitet sa ključem: " + id + "-> nije pronaden u bazi podataka!");
+        }
+
         protected override Razred CreateEntity(RazredDTOInsertUpdate entityDTO)
         {
             var ucitelj = _context.Ucitelji.Find(entityDTO.UciteljID);
@@ -24,6 +45,7 @@ namespace AplikacijaZaUcenje.Controllers
             var entity = _mapper.MapInsertUpdatedFromDTO(entityDTO);
 
             entity.Ucitelj = ucitelj;   
+            entity.MaksimalnoUcenika = entityDTO.MaksimalnoUcenika;
 
             return entity;
         }
@@ -34,7 +56,7 @@ namespace AplikacijaZaUcenje.Controllers
 
             if(entityList == null || entityList.Count == 0) 
             { 
-                throw new Exception("No data in database!"); 
+                throw new Exception("Nema informacija u bazi podataka!"); 
             }
 
             return _mapper.MapReadList(entityList);
@@ -42,7 +64,21 @@ namespace AplikacijaZaUcenje.Controllers
 
         protected override void ControlDelete(Razred entity)
         {
-            throw new NotImplementedException();
+            var entityList = _context.Ucenici.Include(u=>u.Razred).Where(x=> x.Razred.ID == entity.ID).ToList();
+
+            if(entityList.Count() > 0) 
+            {
+                StringBuilder sb = new StringBuilder();
+
+                sb.Append("Razred se ne može obrisati pošto je povezan sa učenicima:");
+               
+                foreach(var ucenik in entityList)
+                {
+                    sb.Append(ucenik.Ime + " " + ucenik.Prezime).Append(", ");
+                }
+                throw new Exception(sb.ToString().Substring(0, sb.ToString().Length  -2));
+            }
+
         }
     }
 }
