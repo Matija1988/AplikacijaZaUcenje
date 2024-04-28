@@ -8,5 +8,7 @@ namespace AplikacijaZaUcenje.Model
 
         [ForeignKey("predmetID")]
         public Predmet Predmet { get; set; }
+
+        public List<Pitanje> Pitanja { get; set; }
     }
 }

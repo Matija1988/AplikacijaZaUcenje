@@ -66,7 +66,7 @@ namespace AplikacijaZaUcenje.Controllers
         {
             var entityList = _context.Ucenici.Include(u=>u.Razred).Where(x=> x.Razred.ID == entity.ID).ToList();
 
-            if(entityList.Count() > 0) 
+            if(entityList.Count > 0 && entity.Ucenici != null) 
             {
                 StringBuilder sb = new StringBuilder();
 
