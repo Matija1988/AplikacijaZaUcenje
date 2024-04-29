@@ -50,7 +50,10 @@ namespace AplikacijaZaUcenje.Controllers
         {
             var list = _context.Predmeti.Include(g => g.Ucitelj).ToList();
 
-            if (list == null || list.Count == 0) { throw new Exception("Nema informacija u bazi podataka!"); }
+            if (list == null || list.Count == 0) 
+            { 
+                throw new Exception("Nema informacija u bazi podataka!"); 
+            }
 
             return _mapper.MapReadList(list);
         }

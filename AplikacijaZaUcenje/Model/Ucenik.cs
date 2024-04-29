@@ -14,5 +14,7 @@ namespace AplikacijaZaUcenje.Model
 
         [ForeignKey("razredID")]
         public Razred Razred { get; set; }
+
+        public List<Odgovor> Odgovori { get; set;  } 
     }
 }

@@ -38,7 +38,10 @@ namespace AplikacijaZaUcenje.Controllers
         {
             var list = _context.Ucenici.Include(u => u.Razred).ToList();
 
-            if (list == null || list.Count == 0) { throw new Exception("No data in database!"); }
+            if (list == null || list.Count == 0) 
+            { 
+                throw new Exception("No data in database!"); 
+            }
 
             return _mapper.MapReadList(list);
         }

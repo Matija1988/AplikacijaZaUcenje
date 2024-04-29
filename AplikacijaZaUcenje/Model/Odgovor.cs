@@ -10,5 +10,7 @@ namespace AplikacijaZaUcenje.Model
 
         [ForeignKey("pitanjeID")]
         public Pitanje Pitanje { get; set; }
+
+        public ICollection<Ucenik>? IUcenici { get; } = new List<Ucenik>();
     }
 }

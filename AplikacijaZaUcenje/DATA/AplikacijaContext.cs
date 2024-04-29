@@ -23,6 +23,15 @@ namespace AplikacijaZaUcenje.DATA
         {
             modelBuilder.Entity<Razred>().HasOne(razred => razred.Ucitelj);
 
+            modelBuilder.Entity<Ucenik>()
+                .HasMany(o => o.Odgovori)
+                .WithMany(u => u.IUcenici)
+                .UsingEntity<Dictionary<string, object>>("rezultati", 
+                r => r.HasOne<Odgovor>().WithMany().HasForeignKey("odgovorID"),
+                r => r.HasOne<Ucenik>().WithMany().HasForeignKey("ucenikID"),
+                r => r.ToTable("rezultati")
+            );
+
         }
 
     }

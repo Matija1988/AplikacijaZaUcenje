@@ -10,7 +10,7 @@ namespace AplikacijaZaUcenje.Model
         [ForeignKey("UciteljID")]
         public Ucitelj? Ucitelj { get; set; }
 
-        public List<Ucenik> Ucenici { get; set;}
+        public List<Ucenik>? Ucenici { get; set;}
 
     }
 }

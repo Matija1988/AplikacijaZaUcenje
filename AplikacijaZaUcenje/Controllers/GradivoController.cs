@@ -52,7 +52,10 @@ namespace AplikacijaZaUcenje.Controllers
         {
             var entityList = _context.Gradiva.Include(g => g.Predmet).ToList();
 
-            if (entityList == null || entityList.Count == 0) { throw new Exception("Nema informacija u bazi podataka!"); }
+            if (entityList == null || entityList.Count == 0) 
+            { 
+                throw new Exception("Nema informacija u bazi podataka!"); 
+            }
 
             return _mapper.MapReadList(entityList);
         }
