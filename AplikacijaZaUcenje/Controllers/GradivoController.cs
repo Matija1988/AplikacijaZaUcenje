@@ -3,6 +3,7 @@ using AplikacijaZaUcenje.Mappers;
 using AplikacijaZaUcenje.Model;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
+using System.Collections.Generic;
 using System.Text;
 
 namespace AplikacijaZaUcenje.Controllers
@@ -22,7 +23,7 @@ namespace AplikacijaZaUcenje.Controllers
             var predmet = _context.Predmeti.Find(entityTDI.PredmetID) 
                 ?? throw new Exception("Ne postoji unos sa ključem " + entityTDI.PredmetID + " u bazi podataka!");
 
-            entityFromDB.Naziv = entityTDI.naziv;
+            entityFromDB.Naziv = entityTDI.Naziv;
             entityFromDB.Predmet = predmet;
 
             return entityFromDB;
@@ -51,12 +52,14 @@ namespace AplikacijaZaUcenje.Controllers
         {
             var entityList = _context.Gradiva.Include(g => g.Predmet).ToList();
 
+            if (entityList == null || entityList.Count == 0) { throw new Exception("Nema informacija u bazi podataka!"); }
+
             return _mapper.MapReadList(entityList);
         }
 
         protected override void ControlDelete(Gradivo entity)
         {
-            var entityList = _context.Pitanja.Where(p => p.GradivoID == entity.ID).ToList();
+            var entityList = _context.Pitanja.Where(p => p.Gradivo.ID == entity.ID).ToList();
 
             if(entity != null && entity.Pitanja != null) 
             {

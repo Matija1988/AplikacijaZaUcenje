@@ -126,10 +126,10 @@ insert into pitanja (opis, gradivoID) values
 ('Pitanje 6', 2),
 ('Pitanje 7', 2),
 ('Pitanje 8', 2),
-('Pitanje 9', 1),
-('Pitanje 10', 1),
-('Pitanje 11', 1),
-('Pitanje 12', 1);
+('Pitanje 9', 3),
+('Pitanje 10', 3),
+('Pitanje 11', 3),
+('Pitanje 12', 3);
 
 insert into odgovori(opis, jeTocno, bodovi, pitanjeID) values 
 ('Odgovor 1', 1, 10, 1),

@@ -24,16 +24,28 @@ namespace AplikacijaZaUcenje.Model
     
     
     
-    public record PredmetDTORead(int Id, string Naziv, string Ucitelj);
+    public record PredmetDTORead(int ID, string Naziv, string Ucitelj);
 
     public record PredmetDTOInsertUpdate(string Naziv, int UciteljID);
 
     
     
     
-    public record GradivoDTORead (int id, string naziv, string Predmet);
+    public record GradivoDTORead (int ID, string Naziv, string Predmet);
 
-    public record GradivoDTOInsertUpdate(string naziv, int PredmetID);
+    public record GradivoDTOInsertUpdate(string Naziv, int PredmetID);
+
+
+
+    public record PitanjaDTORead(int ID, string Opis, string Gradivo);
+
+    public record PitanjeDTOInsertUpdate(string Opis, int GradivoID);
+
+
+
+    public record OdgovorDTORead(int ID, string Opis, bool jeTocno, int Bodovi, int PitanjeID);
+
+    public record OdgovorDTOInsertUpdate (string Opis, bool jeTocno, int Bodovi, int PitanjeID);
 
 
 }
