@@ -12,17 +12,17 @@ namespace AplikacijaZaUcenje.Controllers
     [Route("api/v1/[controller]")]
     public class OdgovorController : MainController<Odgovor, OdgovorDTORead, OdgovorDTOInsertUpdate>
     {
-        public OdgovorController(AplikacijaContext context) : base(context) 
+        public OdgovorController(AplikacijaContext context) : base(context)
         {
             DbSet = _context.Odgovori;
             _mapper = new OdgovorMapper();
-        
+
         }
 
         protected override Odgovor UpdateEntity(OdgovorDTOInsertUpdate entityTDI, Odgovor entityFromDB)
         {
-            var pitanje = _context.Pitanja.Find(entityTDI.PitanjeID) 
-                ?? throw new Exception("Ne postoji unos sa ključem " + entityTDI.PitanjeID + " u bazi podataka!") ;
+            var pitanje = _context.Pitanja.Find(entityTDI.PitanjeID)
+                ?? throw new Exception("Ne postoji unos sa ključem " + entityTDI.PitanjeID + " u bazi podataka!");
 
             entityFromDB.Pitanje = pitanje;
             entityFromDB.Opis = entityTDI.Opis;
@@ -34,13 +34,13 @@ namespace AplikacijaZaUcenje.Controllers
 
         protected override Odgovor FindEntity(int id)
         {
-            return _context.Odgovori.Include(o => o.Pitanje).FirstOrDefault(x => x.ID == id) 
+            return _context.Odgovori.Include(o => o.Pitanje).FirstOrDefault(x => x.ID == id)
                 ?? throw new Exception("Ne postoji unos sa ključem " + id + " u bazi podataka!");
         }
 
         protected override Odgovor CreateEntity(OdgovorDTOInsertUpdate entityDTO)
         {
-            var pitanje = _context.Pitanja.Find(entityDTO.PitanjeID) 
+            var pitanje = _context.Pitanja.Find(entityDTO.PitanjeID)
                 ?? throw new Exception("U bazi podataka ne postoji pitanje sa sifrom: " + entityDTO.PitanjeID);
 
             var entity = _mapper.MapInsertUpdatedFromDTO(entityDTO);
@@ -55,7 +55,7 @@ namespace AplikacijaZaUcenje.Controllers
         {
             var entityList = _context.Odgovori.Include(o => o.Pitanje).ToList();
 
-            if(entityList == null || entityList.Count == 0)
+            if (entityList == null || entityList.Count == 0)
             {
                 throw new Exception("Nema informacija u bazi podataka!");
             }
@@ -65,19 +65,22 @@ namespace AplikacijaZaUcenje.Controllers
 
         protected override void ControlDelete(Odgovor entity)
         {
-
-            if (entity != null && entity.Uc)
+            var entityFromDB =  _context.Odgovori.Include(x => x.IUcenici).FirstOrDefault(x => x.ID == entity.ID) 
+                ?? throw new Exception("Odgovor sa šifrom " + entity.ID + " nije pronađen u bazi podataka!");
+            
+            if (entity != null && entity.IUcenici.Count > 0)
             {
                 StringBuilder sb = new StringBuilder();
 
                 sb.Append("Pitanje se ne može obrisati jer je povezano sa odgovorima: ");
 
-                foreach (var odgovor in entityList)
+                foreach (var ucenici in entityFromDB.IUcenici)
                 {
-                    sb.Append(odgovor.ID).Append(", ");
+                    sb.Append(ucenici.Ime + " " + ucenici.Prezime).Append(", ");
                 }
 
                 throw new Exception(sb.ToString().Substring(0, sb.ToString().Length - 2));
             }
+        }
     }
 }
