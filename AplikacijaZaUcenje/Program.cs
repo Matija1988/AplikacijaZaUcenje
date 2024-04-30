@@ -1,4 +1,5 @@
 using AplikacijaZaUcenje.DATA;
+using AplikacijaZaUcenje.Extenzije;
 using Microsoft.EntityFrameworkCore;
 
 
@@ -11,6 +12,8 @@ builder.Services.AddControllers();
 // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
+
+builder.Services.AddAplikacijaCORS();
 
 builder.Services.AddDbContext<AplikacijaContext>(AppCont =>
 AppCont.UseSqlServer(builder.Configuration.GetConnectionString(name: "AplikacijaContext")));
