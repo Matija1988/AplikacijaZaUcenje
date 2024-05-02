@@ -2,7 +2,7 @@
 
 namespace AplikacijaZaUcenje.Extenzije
 {
-    public class AppExtensions
+    public static class AppExtensions
     {
         public static void AddAplikacijaCORS(this IServiceCollection services)
         {

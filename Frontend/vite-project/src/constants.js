@@ -8,6 +8,6 @@ export const RoutesNames = {
 
 
 export const App = {
-    URL: 'http://localhost:7139',
+    URL: 'http://matijapavkovic-001-site2.itempurl.com/',
     DEV: true
 }

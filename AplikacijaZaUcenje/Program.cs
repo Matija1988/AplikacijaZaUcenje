@@ -23,11 +23,14 @@ var app = builder.Build();
 
 
 // Configure the HTTP request pipeline.
-if (app.Environment.IsDevelopment())
+
+app.UseSwagger();
+
+app.UseSwaggerUI(options =>
 {
-    app.UseSwagger();
-    app.UseSwaggerUI();
-}
+    options.ConfigObject.AdditionalItems.Add("requestSnippetsEnabled", true);
+});
+
 
 app.UseHttpsRedirection();
 
@@ -38,6 +41,6 @@ app.UseStaticFiles();
 
 app.UseDefaultFiles();
 app.UseDeveloperExceptionPage();
-
+app.MapFallbackToFile("index.html");
 
 app.Run();
