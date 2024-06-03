@@ -4,12 +4,15 @@ import { App } from '../constants';
 
 export const httpService = axios.create({
     baseURL: App.URL + '/api/v1',
-    headers: {'Content-Type': 'application/json; charset=utf-8, access-control-allow-origin'}
+    headers: {
+        'Content-Type': 'application/json',
+        'Access-Control-Allow-Origin': '*'
+    }
 });
 
 
 export async function read(name) {
-    return await httpService.get('/', name) 
+    return await httpService.get('/' + name) 
     .then((res) => {return handleSuccess(res); }).catch((e)=> {return processError(e);})
 }
 

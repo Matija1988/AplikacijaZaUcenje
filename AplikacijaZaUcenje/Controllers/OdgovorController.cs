@@ -19,9 +19,9 @@ namespace AplikacijaZaUcenje.Controllers
 
         }
 
-        protected override Odgovor UpdateEntity(OdgovorDTOInsertUpdate entityTDI, Odgovor entityFromDB)
+        protected override  Odgovor UpdateEntity(OdgovorDTOInsertUpdate entityTDI, Odgovor entityFromDB)
         {
-            var pitanje = _context.Pitanja.Find(entityTDI.PitanjeID)
+            var pitanje =  _context.Pitanja.Find(entityTDI.PitanjeID)
                 ?? throw new Exception("Ne postoji unos sa ključem " + entityTDI.PitanjeID + " u bazi podataka!");
 
             entityFromDB.Pitanje = pitanje;
@@ -32,7 +32,7 @@ namespace AplikacijaZaUcenje.Controllers
             return entityFromDB;
         }
 
-        protected override Odgovor FindEntity(int id)
+        protected override async  Task<Odgovor> FindEntity(int id)
         {
             return _context.Odgovori.Include(o => o.Pitanje).FirstOrDefault(x => x.ID == id)
                 ?? throw new Exception("Ne postoji unos sa ključem " + id + " u bazi podataka!");
@@ -51,9 +51,9 @@ namespace AplikacijaZaUcenje.Controllers
 
         }
 
-        protected override List<OdgovorDTORead> ReadAll()
+        protected override async Task<List<OdgovorDTORead>> ReadAll()
         {
-            var entityList = _context.Odgovori.Include(o => o.Pitanje).ToList();
+            var entityList = await _context.Odgovori.Include(o => o.Pitanje).ToListAsync();
 
             if (entityList == null || entityList.Count == 0)
             {

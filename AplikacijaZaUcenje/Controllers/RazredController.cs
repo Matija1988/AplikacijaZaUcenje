@@ -32,9 +32,9 @@ namespace AplikacijaZaUcenje.Controllers
 
         }
 
-        protected override Razred FindEntity(int id)
+        protected override async Task<Razred> FindEntity(int id)
         {
-            return _context.Razredi.Include(r => r.Ucitelj).FirstOrDefault(x => x.ID == id)
+            return await _context.Razredi.Include(r => r.Ucitelj).FirstOrDefaultAsync(x => x.ID == id)
                 ?? throw new Exception("Entitet sa ključem: " + id + "-> nije pronaden u bazi podataka!");
         }
 
@@ -50,9 +50,9 @@ namespace AplikacijaZaUcenje.Controllers
             return entity;
         }
 
-        protected override List<RazredDTORead> ReadAll()
+        protected override async Task<List<RazredDTORead>> ReadAll()
         {
-            var entityList = _context.Razredi.Include(r => r.Ucitelj).ToList();
+            var entityList = await _context.Razredi.Include(r => r.Ucitelj).ToListAsync();
 
             if(entityList == null || entityList.Count == 0) 
             { 

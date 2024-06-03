@@ -16,13 +16,13 @@ namespace AplikacijaZaUcenje.Controllers
             _mapper = new UcenikMapper();
         }
 
-        protected override void ControlDelete(Ucenik entity)
+        protected override async void ControlDelete(Ucenik entity)
         {
-            var entityFromDB = _context.Ucenici.Find(entity.ID) 
+            var entityFromDB = await _context.Ucenici.FindAsync(entity.ID) 
                 ?? throw new Exception("Entitet sa " + entity.ID + " nije pronaden u bazi podataka!");
         }
 
-        protected override Ucenik CreateEntity(UcenikDTOInsertUpdate entityDTO)
+        protected override  Ucenik CreateEntity(UcenikDTOInsertUpdate entityDTO)
         {
             var razred = _context.Razredi.Find(entityDTO.RazredID) 
                     ?? throw new Exception("U bazi podataka ne postoji razred sa sifrom: " + entityDTO.RazredID);
@@ -34,9 +34,9 @@ namespace AplikacijaZaUcenje.Controllers
             return entity;
         }
 
-        protected override List<UcenikDTORead> ReadAll()
+        protected override async Task<List<UcenikDTORead>> ReadAll()
         {
-            var list = _context.Ucenici.Include(u => u.Razred).ToList();
+            var list = await _context.Ucenici.Include(u => u.Razred).ToListAsync();
 
             if (list == null || list.Count == 0) 
             { 

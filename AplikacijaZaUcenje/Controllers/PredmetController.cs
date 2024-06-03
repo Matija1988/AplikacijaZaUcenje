@@ -28,9 +28,9 @@ namespace AplikacijaZaUcenje.Controllers
             return entityFromDB;
         }
 
-        protected override Predmet FindEntity(int id)
+        protected override async Task<Predmet> FindEntity(int id)
         {
-            return _context.Predmeti.Include(u => u.Ucitelj).FirstOrDefault(x => x.ID == id)
+            return await _context.Predmeti.Include(u => u.Ucitelj).FirstOrDefaultAsync(x => x.ID == id)
                 ?? throw new Exception("Ne postoji unos sa ključem " + id + " u bazi podataka!");
         }
 
@@ -46,9 +46,9 @@ namespace AplikacijaZaUcenje.Controllers
             return entity;
         }
 
-        protected override List<PredmetDTORead> ReadAll()
+        protected override async Task<List<PredmetDTORead>> ReadAll()
         {
-            var list = _context.Predmeti.Include(g => g.Ucitelj).ToList();
+            var list = await _context.Predmeti.Include(g => g.Ucitelj).ToListAsync();
 
             if (list == null || list.Count == 0) 
             { 
@@ -58,9 +58,9 @@ namespace AplikacijaZaUcenje.Controllers
             return _mapper.MapReadList(list);
         }
 
-        protected override void ControlDelete(Predmet entity)
+        protected override async void ControlDelete(Predmet entity)
         {
-            var entityList = _context.Gradiva.Include(g => g.Predmet).Where(g => g.Predmet.ID == entity.ID).ToList();
+            var entityList = await _context.Gradiva.Include(g => g.Predmet).Where(g => g.Predmet.ID == entity.ID).ToListAsync();
 
             if(entityList != null && entityList.Count > 0) 
             { 

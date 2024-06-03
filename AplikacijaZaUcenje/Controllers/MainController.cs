@@ -3,6 +3,7 @@ using AplikacijaZaUcenje.Mappers;
 using AplikacijaZaUcenje.Model;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.VisualBasic;
 
 namespace AplikacijaZaUcenje.Controllers
 {
@@ -25,7 +26,7 @@ namespace AplikacijaZaUcenje.Controllers
 
         [HttpGet]
 
-        public IActionResult Get()
+        public async Task<IActionResult> Get()
         {
             if (!ModelState.IsValid)
             {
@@ -47,13 +48,13 @@ namespace AplikacijaZaUcenje.Controllers
         [HttpGet]
         [Route("{id:int}")]
 
-        public IActionResult GetById(int id)
+        public async Task<IActionResult> GetById(int id)
         {
             if (!ModelState.IsValid || id <= 0) { return BadRequest(ModelState); }
 
             try
             {
-                var entity = FindEntity(id);
+                var entity =  await FindEntity(id);
                 return new JsonResult(_mapper.MapInsertUpdateToDTO(entity));
             } catch (Exception ex)
             {
@@ -64,7 +65,7 @@ namespace AplikacijaZaUcenje.Controllers
 
         [HttpPost]
 
-        public IActionResult Post(TDI entityDTO)
+        public async Task<IActionResult> Post(TDI entityDTO)
         {
             if (!ModelState.IsValid || entityDTO == null) { return BadRequest(ModelState); }
 
@@ -72,7 +73,7 @@ namespace AplikacijaZaUcenje.Controllers
             {
                 var entity = CreateEntity(entityDTO);
                 _context.Add(entity);
-                _context.SaveChanges();
+               await _context.SaveChangesAsync();
 
                 return StatusCode(StatusCodes.Status201Created, _mapper.MapReadToDTO(entity));
 
@@ -85,18 +86,18 @@ namespace AplikacijaZaUcenje.Controllers
         [HttpPut]
         [Route("{id:int}")]
 
-        public IActionResult Put(int id, TDI entityTDI)
+        public async Task<IActionResult> Put(int id, TDI entityTDI)
         {
             if (id <= 0 || !ModelState.IsValid || entityTDI == null) { return BadRequest(ModelState); }
 
             try
             {
-                var entityFromDB = FindEntity(id);
+                var entityFromDB = await FindEntity(id);
                 _context.Entry(entityFromDB).State = EntityState.Detached;
                 var entity = UpdateEntity(entityTDI, entityFromDB);
                 entity.ID = id;
                 _context.Update(entity);
-                _context.SaveChanges();
+                await _context.SaveChangesAsync();
 
                 return StatusCode(StatusCodes.Status200OK, _mapper.MapReadToDTO(entity));
             }
@@ -110,17 +111,17 @@ namespace AplikacijaZaUcenje.Controllers
         [HttpDelete]
         [Route("{id:int}")]
 
-        public IActionResult Delete(int id)
+        public async Task<IActionResult> Delete(int id)
         {
             if (!ModelState.IsValid || id<=0) { return BadRequest(); }
 
             try
             {
-                var entityFromDB = FindEntity(id);
+                var entityFromDB = await FindEntity(id);
 
                 ControlDelete(entityFromDB);
                 _context.Remove(entityFromDB);
-                _context.SaveChanges();
+                await _context.SaveChangesAsync();
                 return Ok("Entity deleted!");
 
             } catch(Exception ex)
@@ -140,22 +141,22 @@ namespace AplikacijaZaUcenje.Controllers
 
         protected virtual T CreateEntity(TDI entityDTO)
         {
-            return _mapper.MapInsertUpdatedFromDTO(entityDTO);
+            return  _mapper.MapInsertUpdatedFromDTO(entityDTO);
         }
 
-        protected virtual T FindEntity(int id)
+        protected virtual async Task<T> FindEntity(int id)
         {
-            var entityFromDB = DbSet.Find(id);
+            var entityFromDB = DbSet.FindAsync(id);
             if(entityFromDB == null)
             {
                 throw new Exception("No entity with id " + id + " found in database!!!"); 
             }
-            return entityFromDB;
+            return await entityFromDB;
         }
 
-        protected virtual List<TDR> ReadAll()
+        protected virtual async Task<List<TDR>> ReadAll()
         {
-            var list = DbSet.ToList();
+            var list = await DbSet.ToListAsync();
 
             if (list == null || list.Count == 0)
             {

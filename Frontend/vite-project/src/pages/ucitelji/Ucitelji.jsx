@@ -8,19 +8,19 @@ export default function Ucitelji() {
     
 const [Ucitelj, setUcitelj] = useState();
 
-// async function getUcitelji() {
+async function getUcitelji() {
 
-//     const response = await UciteljService.read('Ucitelji');
-//     if(!response.ok) {
-//         alert(response.data);
-//         return;
-//     }
-//     setUcitelj(response.data);
-// }
+    const response = await UciteljService.read('Ucitelji');
+    if(!response.ok) {
+        alert(response.data);
+        return;
+    }
+    setUcitelj(response.data);
+}
 
-// useEffect(()=>{
-//     getUcitelji();
-// }, []); 
+useEffect(()=>{
+    getUcitelji();
+}, []); 
 
     return(
 
@@ -34,11 +34,11 @@ const [Ucitelj, setUcitelj] = useState();
                     </tr>
                 </thead>
                 <tbody>
-                    {/* {Ucitelj && Ucitelj.map((ucitelj, index) =>(
+                    {Ucitelj && Ucitelj.map((ucitelj, index) =>(
                         <tr key={index}>
                          <td>{ucitelj.ime}</td>
                         </tr>
-                    ))}; */}
+                    ))};
                 </tbody>
             </Table>
         </Container>

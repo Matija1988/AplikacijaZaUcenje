@@ -8,6 +8,6 @@ export const RoutesNames = {
 
 
 export const App = {
-    URL: 'http://matijapavkovic-001-site2.itempurl.com/',
+    URL: 'http://aplikacijazaucenje.runasp.net',
     DEV: true
 }

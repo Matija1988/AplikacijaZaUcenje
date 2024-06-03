@@ -28,7 +28,7 @@ namespace AplikacijaZaUcenje.Controllers
 
             return entityFromDB;
         }
-        protected override Gradivo FindEntity(int id)
+        protected override async Task<Gradivo> FindEntity(int id)
         {
             return _context.Gradiva.Include(g => g.Predmet).FirstOrDefault(x => x.ID == id)
                 ?? throw new Exception("Ne postoji unos sa ključem " + id + " u bazi podataka!");
@@ -48,9 +48,9 @@ namespace AplikacijaZaUcenje.Controllers
 
         }
 
-        protected override List<GradivoDTORead> ReadAll()
+        protected override async Task<List<GradivoDTORead>> ReadAll()
         {
-            var entityList = _context.Gradiva.Include(g => g.Predmet).ToList();
+            var entityList = await _context.Gradiva.Include(g => g.Predmet).ToListAsync();
 
             if (entityList == null || entityList.Count == 0) 
             { 
@@ -60,9 +60,9 @@ namespace AplikacijaZaUcenje.Controllers
             return _mapper.MapReadList(entityList);
         }
 
-        protected override void ControlDelete(Gradivo entity)
+        protected override async void ControlDelete(Gradivo entity)
         {
-            var entityList = _context.Pitanja.Where(p => p.Gradivo.ID == entity.ID).ToList();
+            var entityList =  await _context.Pitanja.Where(p => p.Gradivo.ID == entity.ID).ToListAsync();
 
             if(entity != null && entity.Pitanja != null) 
             {
